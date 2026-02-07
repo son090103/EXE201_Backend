@@ -16,6 +16,8 @@ app.use(bodyParser.json())
 const whitelist = [
     "http://localhost:3000",
     "http://localhost:5173",
+    "https://exe201-backend-n9j7.onrender.com",
+    "https://exe-201-frontend-xjvq.vercel.app/"
 ];
 
 app.use(
