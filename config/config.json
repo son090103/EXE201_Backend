@@ -13,18 +13,18 @@
       }
     }
   },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  }
+    "username": "postgres.tmmlqlhhkumgjfgrbytu",
+    "password": "YfebFpKeN0aR4Bcd",
+    "database": "postgres",
+    "host": "aws-1-ap-northeast-2.pooler.supabase.com",
+    "port": 6543,
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
 }
