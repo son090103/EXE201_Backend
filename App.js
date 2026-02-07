@@ -13,32 +13,33 @@ app.use(bodyParser.urlencoded())
 // parse application/json
 app.use(bodyParser.json())
 // cho ba và fe hoạt động được 
-const whitelist = [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "https://exe-201-frontend-xjvq.vercel.app",
-];
+// const whitelist = [
+//     "http://localhost:3000",
+//     "http://localhost:5173",
+//     "https://exe-201-frontend-xjvq.vercel.app",
+// ];
 
-app.use(
-    cors({
-        origin(origin, callback) {
-            // Cho Postman, server-to-server, OPTIONS
-            if (!origin) return callback(null, true);
+app.use(cors({
+    origin: function (origin, callback) {
+        // Cho phép Postman, server-to-server
+        if (!origin) return callback(null, true);
 
-            if (whitelist.includes(origin)) {
-                return callback(null, true);
-            }
+        const whitelist = [
+            "http://localhost:3000",
+            "http://localhost:5173",
+            "https://exe-201-frontend-xjvq.vercel.app"
+        ];
 
-            // ❗ KHÔNG throw error
-            return callback(null, false);
-        },
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-    })
-);
-
-app.options("/*", cors());
+        if (whitelist.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(null, false); // ❗ KHÔNG throw error
+        }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 // cách router để có thể hoạt động được 
 ROUTES.forEach(route => {
     if (route.middlewares && route.middlewares.length > 0) {
