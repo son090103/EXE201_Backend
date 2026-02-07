@@ -38,8 +38,7 @@ app.use(
     })
 );
 
-app.options("*", cors());
-
+app.options("/*", cors());
 // cách router để có thể hoạt động được 
 ROUTES.forEach(route => {
     if (route.middlewares && route.middlewares.length > 0) {
