@@ -21,8 +21,6 @@ pnpm-debug.log*
 # ========================
 # Sequelize config
 # ========================
-config/config.json
-
 # ========================
 # Certificates / SSL
 # ========================
