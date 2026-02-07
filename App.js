@@ -16,22 +16,30 @@ app.use(bodyParser.json())
 const whitelist = [
     "http://localhost:3000",
     "http://localhost:5173",
-    "https://exe201-backend-n9j7.onrender.com",
-    "https://exe-201-frontend-xjvq.vercel.app/"
+    "https://exe-201-frontend-xjvq.vercel.app",
 ];
 
 app.use(
     cors({
         origin(origin, callback) {
-            if (!origin || whitelist.includes(origin)) {
-                callback(null, true);
-            } else {
-                callback(new Error("Not allowed by CORS"));
+            // Cho Postman, server-to-server, OPTIONS
+            if (!origin) return callback(null, true);
+
+            if (whitelist.includes(origin)) {
+                return callback(null, true);
             }
+
+            // ❗ KHÔNG throw error
+            return callback(null, false);
         },
         credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
+
+app.options("*", cors());
+
 // cách router để có thể hoạt động được 
 ROUTES.forEach(route => {
     if (route.middlewares && route.middlewares.length > 0) {
