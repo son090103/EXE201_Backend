@@ -38,4 +38,5 @@ routerCheck.post("/postEvents",
     uploadIcloud.uploadIclod,
     clientController.postEvent)
 routerCheck.get("/viewEvent", clientController.viewEvent)
+routerCheck.get("/homeUser", clientController.homeUser)
 module.exports = routerCheck;

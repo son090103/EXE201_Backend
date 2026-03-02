@@ -12,12 +12,13 @@ if (process.env.NODE_ENV === "production") {
     });
 } else {
     // Local → HTTPS
+    console.log("đang chạy vào local host")
     const options = {
         key: fs.readFileSync("./localhost+2-key.pem"),
         cert: fs.readFileSync("./localhost+2.pem"),
     };
 
-    https.createServer(options, app).listen(443, () => {
+    https.createServer(options, app).listen(3000, () => {
         console.log("Local HTTPS server running");
     });
 }

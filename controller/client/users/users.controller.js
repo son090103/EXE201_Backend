@@ -15,6 +15,9 @@ const { Op, where } = require("sequelize")
 const uploadToCloud = require("../../../helper/uploadtocloud")
 const Event = require("./../../../models").Event
 const EventImage = require("./../../../models").EventImage
+
+const CommunityPostImage = require("./../../../models").CommunityPostImage
+const CommunityPost = require("./../../../models").CommunityPost
 module.exports.register = async (req, res) => {
     const t = await sequelize.transaction(); // nên sử dụng transaction
     try {
@@ -600,6 +603,53 @@ module.exports.getProfileUser = async (req, res) => {
         });
     } catch (err) {
         console.log("lỗi của chương trình là : ", err);
+        return res.status(500).json({
+            message: "Lỗi server"
+        });
+    }
+};
+
+module.exports.homeUser = async (req, res) => {
+    try {
+        const users = res.locals.users;
+        const user_id = users.id;
+
+        if (!user_id) {
+            return res.status(400).json({
+                message: "Không tìm thấy user"
+            });
+        }
+
+        const posts = await CommunityPost.findAll({
+            where: {
+                user_id,
+            },
+            order: [['created_at', 'DESC']],
+            include: [
+                {
+                    model: user,
+                    as: "author",
+                    attributes: ["id", "name", "avatar"]
+                },
+                {
+                    model: CommunityPostImage,
+                    as: "images"
+                },
+                {
+                    model: community,
+                    as: "community",
+                    attributes: ["id", "name"]
+                }
+            ],
+        });
+
+        return res.status(200).json({
+            message: "Lấy danh sách bài viết của user thành công",
+            data: posts
+        });
+
+    } catch (err) {
+        console.log("lỗi của chương trình là :", err);
         return res.status(500).json({
             message: "Lỗi server"
         });
